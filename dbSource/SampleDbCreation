@@ -1,0 +1,54 @@
+#------------------------------------------------------------------
+#   MS-SQL DB creation for making a test
+#------------------------------------------------------------------
+#   Customer Table
+#------------------------------------------------------------------
+CREATE TABLE [dbo].[CUSTOMER](
+	[CUSTOMER_ID] [bigint] PRIMARY KEY,
+	[FIRST_NAME] [varchar](50) NULL,
+	[MIDDLE_NAME] [varbinary](50) NULL,
+	[LAST_NAME] [varchar](50) NULL,
+	[SSN] [varchar](50) NULL,
+	[EMAIL_ADDRESS] [varchar](255) NULL,
+	[HOME_PHONE] [nchar](10) NULL,
+	[CELL_PHONE] [nchar](10) NULL,
+	[WORK_PHONE] [nchar](10) NULL,
+	[MODIFICATION_PREF] [nchar](1) NULL
+)
+
+#------------------------------------------------------------------
+#   Account table
+#------------------------------------------------------------------
+CREATE TABLE [dbo].[ACCOUNT](
+	[ACCOUNT_ID] [bigint] PRIMARY KEY,
+	[BALANCE FLOAT] [decimal](18, 0) NULL,
+	[LAST_STATEMENT_DATE] [datetime] NULL
+)
+
+#------------------------------------------------------------------
+#   Customer's account table
+#------------------------------------------------------------------
+CREATE TABLE [dbo].[CUSTOMER_ACCOUNT](
+	[CUSTOMER_ID] [bigint] NULL,
+	[ACCOUNT_ID] [bigint] NULL
+)
+
+ALTER TABLE CUSTOMER_ACCOUNT ADD CONSTRAINT [CUSTOMER_ACCOUNT_FK] FOREIGN KEY([CUSTOMER_ID])
+                                REFERENCES [CUSTOMER] ([CUSTOMER_ID])
+
+ALTER TABLE CUSTOMER_ACCOUNT ADD CONSTRAINT [CUSTOMER_ACCOUNT_FK2] FOREIGN KEY([ACCOUNT_ID])
+                                REFERENCES [ACCOUNT] ([ACCOUNT_ID])
+
+#------------------------------------------------------------------
+#   Transaction table
+#------------------------------------------------------------------
+CREATE TABLE [dbo].[TRANSACTION](
+	[TRANSACTION] [bigint] PRIMARY KEY,
+	[ACCOUNT_ID] [bigint],
+	[CREADIT] [decimal](18, 0) NULL,
+	[DEBIT] [decimal](18, 0) NULL,
+	[TIMESTAMP] [datetime] NULL
+)
+
+ALTER TABLE [TRANSACTION] ADD CONSTRAINT [TRANSACTION_FK] FOREIGN KEY([ACCOUNT_ID])
+                                REFERENCES [ACCOUNT] ([ACCOUNT_ID])
